@@ -3,8 +3,6 @@
 
 using namespace std;
 
-const int SIZE = 3;
-
 struct Review{
     double rating;
     string comment;
@@ -15,6 +13,7 @@ struct Review{
 Review * addFront(Review * head, double r, string c);
 Review * addBack(Review * head, double r, string c);
 double calcAverage(Review * head);
+void displayAll(Review * head);
 
 // create reviews, add to linked list, display each one, calc and display average
 int main(){
@@ -34,25 +33,29 @@ int main(){
             while (cont == 'y'){
                 cout << "Enter review rating: ";
                 cin >> r;
+                cin.ignore();
                 cout << "Enter review comments: ";
                 getline(cin, c);
                 head = addFront(head, r, c);
                 cout << "Enter another review? [y/n]: ";
                 cin >> cont;
-                cin.ignore();
             }
+            break;
         case 2:
             while (cont == 'y'){
                 cout << "Enter review rating: ";
                 cin >> r;
+                cin.ignore();
                 cout << "Enter review comments: ";
                 getline(cin, c);
-                head = addFront(head, r, c);
+                head = addBack(head, r, c);
                 cout << "Enter another review? [y/n]: ";
                 cin >> cont;
-                cin.ignore();
             }
+            break;
     }
+    cout << "\nDisplaying all reviews:" << endl;
+    displayAll(head);
 }
 
 Review * addFront(Review * head, double r, string c){
@@ -69,7 +72,7 @@ Review * addFront(Review * head, double r, string c){
         newR->comment = c;
         head = newR;
     }
-    cout << head->rating << " " << head->comment << endl;
+    //cout << head->rating << " " << head->comment << endl;
     return head;
 }
 
@@ -91,7 +94,7 @@ Review * addBack(Review * head, double r, string c){
         newR->comment = c;
         last->next = newR;
     }
-    cout << head->rating << " " << head->comment << endl;
+    //cout << head->rating << " " << head->comment << endl;
     return head;
 }
 
@@ -99,10 +102,24 @@ Review * addBack(Review * head, double r, string c){
 double calcAverage(Review * head){
     Review * current = head;
     double average = 0;
-    for (int i = 0; i < SIZE; i++){
+    int size = 0;
+    while (current){
         average += current->rating;
         current = current->next;
+        size++;
     }
-    average /= SIZE;
+    average /= size;
     return average;
+}
+
+// Displays all reviews in formatted way
+void displayAll(Review * head){
+    Review * current = head;
+    int i = 1;
+    while(current){
+        cout << "> Review " << i << ": " << current->rating << ", " << current->comment << endl;
+        current = current->next;
+        i++;
+    }
+    cout << "> Average Rating: " << calcAverage(head) << endl;
 }
