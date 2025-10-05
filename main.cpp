@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -15,11 +16,43 @@ Review * addFront(Review * head, double r, string c);
 Review * addBack(Review * head, double r, string c);
 double calcAverage(Review * head);
 
+// create reviews, add to linked list, display each one, calc and display average
 int main(){
-    // create reviews, add to linked list, display each one, calc and display average
     Review * head = nullptr;
-    head = addFront(head, 4.8, "Oscar Contender");
-    head = addBack(head, 4.1, "Brilliant lead acting");
+    int inputMethod;
+    char cont = 'y';
+    double r;
+    string c;
+
+    cout << "[1] - New reviews are added to front of linked list\n[2] - New reviews are added to back of linked list" << endl;
+    cout << "Choose preferred method for adding reviews: ";
+    cin >> inputMethod;
+
+    switch (inputMethod){
+        // add case to check if char is other than y/n
+        case 1:
+            while (cont == 'y'){
+                cout << "Enter review rating: ";
+                cin >> r;
+                cout << "Enter review comments: ";
+                getline(cin, c);
+                head = addFront(head, r, c);
+                cout << "Enter another review? [y/n]: ";
+                cin >> cont;
+                cin.ignore();
+            }
+        case 2:
+            while (cont == 'y'){
+                cout << "Enter review rating: ";
+                cin >> r;
+                cout << "Enter review comments: ";
+                getline(cin, c);
+                head = addFront(head, r, c);
+                cout << "Enter another review? [y/n]: ";
+                cin >> cont;
+                cin.ignore();
+            }
+    }
 }
 
 Review * addFront(Review * head, double r, string c){
@@ -62,6 +95,14 @@ Review * addBack(Review * head, double r, string c){
     return head;
 }
 
+// Calculates average of all reviews
 double calcAverage(Review * head){
-    // calculate average of all review
+    Review * current = head;
+    double average = 0;
+    for (int i = 0; i < SIZE; i++){
+        average += current->rating;
+        current = current->next;
+    }
+    average /= SIZE;
+    return average;
 }
