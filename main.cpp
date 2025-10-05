@@ -1,8 +1,12 @@
+// COMSC-210 | Lab 18 | Amrutha Sriprasana
+// Made w/ VSCode
+
 #include <iostream>
 #include <string>
 
 using namespace std;
 
+// Movie review node for linked list
 struct Review{
     double rating;
     string comment;
@@ -15,7 +19,7 @@ Review * addBack(Review * head, double r, string c);
 double calcAverage(Review * head);
 void displayAll(Review * head);
 
-// create reviews, add to linked list, display each one, calc and display average
+// create reviews, add to linked list based on preferred method, display all reviews and average
 int main(){
     Review * head = nullptr;
     int inputMethod;
@@ -27,37 +31,54 @@ int main(){
     cout << "Choose preferred method for adding reviews: ";
     cin >> inputMethod;
 
-    switch (inputMethod){
-        // add case to check if char is other than y/n
-        case 1:
-            while (cont == 'y'){
-                cout << "Enter review rating: ";
-                cin >> r;
-                cin.ignore();
-                cout << "Enter review comments: ";
-                getline(cin, c);
-                head = addFront(head, r, c);
-                cout << "Enter another review? [y/n]: ";
-                cin >> cont;
-            }
-            break;
-        case 2:
-            while (cont == 'y'){
-                cout << "Enter review rating: ";
-                cin >> r;
-                cin.ignore();
-                cout << "Enter review comments: ";
-                getline(cin, c);
-                head = addBack(head, r, c);
-                cout << "Enter another review? [y/n]: ";
-                cin >> cont;
-            }
-            break;
+    while (cont != 'n'){ // checks if still want to input reviews
+        switch (inputMethod){ // checks preferred input method
+            case 1: // adds in front
+                if (cont == 'y'){
+                    cout << "Enter review rating: ";
+                    cin >> r;
+                    cin.ignore();
+                    cout << "Enter review comments: ";
+                    getline(cin, c);
+                    head = addFront(head, r, c);
+                    cout << "Enter another review? [y/n]: ";
+                    cin >> cont;
+                    cont = tolower(cont);
+                }
+                else if (cont != 'n'){ // runs if cont is anything other than 'y' or 'n'
+                    cout << "Invalid input. Please enter [y/n]: ";
+                    cin >> cont;
+                    cont = tolower(cont);
+                }
+                break;
+            case 2: // adds in back
+                if (cont == 'y'){
+                    cout << "Enter review rating: ";
+                    cin >> r;
+                    cin.ignore();
+                    cout << "Enter review comments: ";
+                    getline(cin, c);
+                    head = addBack(head, r, c);
+                    cout << "Enter another review? [y/n]: ";
+                    cin >> cont;
+                    cont = tolower(cont);
+                }
+                else if (cont != 'n'){ // runs if cont is anything other than 'y' or 'n'
+                    cout << "Invalid input. Please enter [y/n]: ";
+                    cin >> cont;
+                    cont = tolower(cont);
+                }
+                break;
+            default: // runs if inputMethod is number other than 1 or 2
+                cout << "Invalid choice. Please enter 1 or 2: ";
+                cin >> inputMethod;
+        }
     }
     cout << "\nDisplaying all reviews:" << endl;
     displayAll(head);
 }
 
+// Adds new node in front
 Review * addFront(Review * head, double r, string c){
     Review * newR = new Review;
     if (!head){
@@ -76,6 +97,7 @@ Review * addFront(Review * head, double r, string c){
     return head;
 }
 
+// Adds new node in back
 Review * addBack(Review * head, double r, string c){
     Review * newR = new Review;
     Review * last = head;
